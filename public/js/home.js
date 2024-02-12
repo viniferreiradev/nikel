@@ -26,14 +26,15 @@ document.getElementById("transaction-modal").addEventListener("submit", function
 
     saveData(data);
 
-    alert("Lançamento realizado com sucesso!");
-
     e.target.reset();
     myModal.hide();
     
     getCashIn();
     getCashOut();
     getTotal();
+    negativeValue();
+
+    alert("Lançamento realizado com sucesso!");
 }) 
 
 checkLogged();
@@ -155,12 +156,31 @@ function getTotal() {
             total -= item.value;
         }                     
     })
-
-    
+ 
     document.getElementById("total").innerHTML = `R$ ${total.toFixed(2)}`;
+
+}
+
+function negativeValue() {
+    const transactions = data.transactions;
+    let total = 0;
+
+    transactions.forEach((item) => {
+        if(item.type === "1") {
+            total += item.value;
+        }else{
+            total -= item.value;
+        }                     
+    })
+
+    if(total<0) {
+        alert("Atenção! Seu saldo após cadastrar essa despesa será negativo, deseja continuar?");
+    }
+
 }
 
 function saveData(data) {
     localStorage.setItem(data.login, JSON.stringify(data));
+    
 }
 

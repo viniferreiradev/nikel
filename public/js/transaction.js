@@ -23,6 +23,7 @@ document.getElementById("transaction-modal").addEventListener("submit", function
 
     saveData(data);
     getTransactions()
+    negativeValue();
 
     alert("Lançamento realizado com sucesso!");
 
@@ -74,6 +75,24 @@ function getTransactions() {
     )}
 
     document.getElementById("transactions-list").innerHTML = transactionHtml;
+}
+
+function negativeValue() {
+    const transactions = data.transactions;
+    let total = 0;
+
+    transactions.forEach((item) => {
+        if(item.type === "1") {
+            total += item.value;
+        }else{
+            total -= item.value;
+        }                     
+    })
+
+    if(total<0) {
+        alert("Atenção! Seu saldo após cadastrar essa despesa será negativo, deseja continuar?");
+    }
+
 }
 
 function logout() {
